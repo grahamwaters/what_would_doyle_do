@@ -96,7 +96,10 @@ def book_reformatter(books_directory):
             # we want to remove the spaces and make the capitalization consistent while leaving the .txt extension.
 
             original_book_name = book # save the original name of the book
-
+            # if the original name already has the correct format, we don't need to change it
+            if re.search(r'\d{4}_[a-z]+_[a-z]+\.txt',book):
+                bar()
+                continue
             # replace spaces with underscores
             book = book.replace(' ', '_')
             # remove the .txt extension
