@@ -36,3 +36,28 @@ Any first-hand accounts (written by Arthur Conan Doyle) are 100% because they re
 Family accounts written by his relatives should likely get a rating of 90% for data credibility.
 Sources written or spoken (in the case of speeches) by his closest friends are worth 75% in data credibility.
 And then the rest of his second-degree connections are around 60%. All other accounts will give 30% credibility.
+
+### The Doyle DataFrame (DDF)
+
+The Doyle DataFrame (DDF) is a data frame that contains all of the data that we have gathered about Arthur Conan Doyle.
+
+```python
+import pandas as pd
+data = []
+for fileid in gutenberg.fileids():
+    num_chars = len(gutenberg.raw(fileid))
+    num_words = len(gutenberg.words(fileid))
+    num_sents = len(gutenberg.sents(fileid))
+    # get total vocabulary used in this book
+    num_vocab = len(set(w.lower() for w in gutenberg.words(fileid)))
+    data.append([
+        fileid.split('.')[0] # remove .txt from file name
+        ,round(num_chars/num_words)
+        ,round(num_words/num_sents)
+        # total vocabulary used divide total words used
+        ,round(num_vocab/num_words,2)
+    ])
+pattern_metrics = pd.DataFrame(data,columns=['author-book','chars_per_word','words_per_sentence','vocabulary_rate'])
+pattern_metrics
+```
+The snippet above comes [from this source](https://towardsdatascience.com/book-writing-pattern-analysis-625f7c47c9ad) and shows one method of analysis directly applied to gutenberg books.

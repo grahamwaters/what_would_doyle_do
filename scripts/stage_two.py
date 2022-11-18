@@ -8,13 +8,19 @@ import time
 import csv
 import os
 import pandas
+import pickle
 import spacy # for NLP
 nlp = spacy.load('en_core_web_md')
 
 # using SpaCy to get keywords
-def get_keywords(book_text,bar):
-    # using SpaCy to get keywords
+def get_keywords(book_title,book_text,bar):
 
+    # check if the pickled file exists already
+    if os.path.exists(f'./data/pickles/{book_title}.pkl'):
+        print(f'Found pickled file for {book_title}')
+        return
+
+    # using SpaCy to get keywords
     try:
         doc = nlp(book_text)
         docs = [doc]
@@ -38,6 +44,28 @@ def get_keywords(book_text,bar):
         # remove duplicates
         keywords = list(set(keywords))
         all_keys.extend(keywords) # add the keywords to the list
+        common_words = list(set(common_words))
+        entities = list(set(entities))
+
+        # save these to files for later use (pickle)
+        # remove .txt from the title
+        title = book_title.replace('.txt','')
+        # save the keywords to a pickle file for later use (this will be used in the next stage)
+        # if the folder doesn't exist, create it first
+        if not os.path.exists('./data/pickles'):
+            os.mkdir('./data/pickles')
+        if not os.path.exists(f'./data/pickles/{title}') and len(title)>0 and title != ' ':
+            os.mkdir(f'./data/pickles/{title}') # create a folder for the book
+        # save the keywords
+        with open(f'./data/pickles/{title}/keywords.pkl','wb') as f:
+            pickle.dump(keywords,f) # save the keywords
+            # pickle.dump(','.join(keywords),f)
+        # save the common words
+        with open(f'./data/pickles/{title}/common_words.pkl','wb') as f:
+            pickle.dump(common_words,f)
+        # save the entities
+        with open(f'./data/pickles/{title}/entities.pkl','wb') as f:
+            pickle.dump(entities,f)
 
     return all_keys, common_words, entities
 
@@ -144,7 +172,7 @@ def book_reformatter(books_directory):
                 text = text.replace('\n', ' ')
                 # get the keywords from the text
                 print(f'Detecting Keywords in {book}')
-                keywords, common_words, entities = get_keywords(text,bar)
+                keywords, common_words, entities = get_keywords(book,text,bar)
 
             #* data cleaning for all_years
             # strip them and convert them to integers do not remove duplicates, remove commas if they exist
