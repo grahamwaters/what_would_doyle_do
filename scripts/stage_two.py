@@ -12,6 +12,24 @@ import pickle
 import spacy # for NLP
 nlp = spacy.load('en_core_web_md')
 
+
+
+def book_title_reformatter(book_title):
+    # remove duplicated words from the title string
+    for word in book_title.split("_"):
+        # find duplicated pairs of words with a number first then the word doyle
+        if book_title.count(word) > 1:
+            book_title = book_title.replace(f'_{word}','')
+    # last check to make sure the title is formatted correctly
+    if re.search(r'\d{1,2}.*doyle',word.lower()):
+        book_title = book_title.replace(word,'')
+    return book_title
+
+
+
+
+
+
 # using SpaCy to get keywords
 def get_keywords(book_title,book_text,bar):
 
@@ -50,6 +68,9 @@ def get_keywords(book_title,book_text,bar):
         # save these to files for later use (pickle)
         # remove .txt from the title
         title = book_title.replace('.txt','')
+        #^ use reformatter
+        title = book_title_reformatter(title) # remove any duplicated words from the title
+
         # save the keywords to a pickle file for later use (this will be used in the next stage)
         # if the folder doesn't exist, create it first
         if not os.path.exists('./data/pickles'):
