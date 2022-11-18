@@ -305,6 +305,13 @@ def book_reformatter(books_directory):
             bar()
 
 
+
+
+
+
+
+
+
 def main():
     print(f'-------------------------')
     print(f'  What Would Doyle Do?')
@@ -329,6 +336,10 @@ def main():
     print('-----------------------------------')
 
     time.sleep(0.25)
+
+
+
+
 
 
 main()

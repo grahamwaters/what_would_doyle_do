@@ -61,3 +61,27 @@ pattern_metrics = pd.DataFrame(data,columns=['author-book','chars_per_word','wor
 pattern_metrics
 ```
 The snippet above comes [from this source](https://towardsdatascience.com/book-writing-pattern-analysis-625f7c47c9ad) and shows one method of analysis directly applied to gutenberg books.
+
+
+## Stage Three: Explore Data
+
+Once all the books have been saved into pickle files we can access them much quicker and easier. We can also use the pickle files to create a dataframe that contains all of the books in one place. This will make it easier to explore the data. We may want to keep them decentralized however, as this will allow for scalable comparisons between books.
+
+```python
+import pickle
+import pandas as pd
+import os
+import glob
+
+book_list = []
+for book in glob.glob("Data/*.pickle"):
+    book_list.append(book)
+
+df = pd.DataFrame(book_list,columns=['book'])
+df.head()
+```
+The snippet above creates a dataframe from the pickle files. This dataframe can be used to explore the data. We can see the file name, author, and book title. We can also see the number of words in the book, the number of sentences, and the number of unique words in the book.
+
+## Stage Four: Model Data
+
+We have gathered the data and we have explored the data. The next step is to model the data. This is where we will begin to build our model. We will start by building a model that will predict the author of a book. This is a very simple model, but it will help us to understand the data and how to approach our problem.
