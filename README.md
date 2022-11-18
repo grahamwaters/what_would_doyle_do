@@ -82,6 +82,11 @@ df.head()
 ```
 The snippet above creates a dataframe from the pickle files. This dataframe can be used to explore the data. We can see the file name, author, and book title. We can also see the number of words in the book, the number of sentences, and the number of unique words in the book.
 
+## Stage Four: Prepare Data for modeling with CVEC
+
+
+
+
 ## Stage Four: Model Data
 
 We have gathered the data and we have explored the data. The next step is to model the data. This is where we will begin to build our model. We will start by building a model that will predict the author of a book. This is a very simple model, but it will help us to understand the data and how to approach our problem.

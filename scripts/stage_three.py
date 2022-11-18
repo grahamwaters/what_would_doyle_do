@@ -6,6 +6,7 @@ import time
 import nltk # natural language processing
 import shutil # helper function for prepare_text_data() moves files from one folder to another
 from colorama import Fore, Back, Style # for colored terminal output
+
 nltk.download('punkt')
 nltk.download('stopwords')
 nltk.download('wordnet')
