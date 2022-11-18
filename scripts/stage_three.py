@@ -27,7 +27,9 @@ def build_data_viz():
 
 
 
-def clean_text(novel_text,regex_patterns_dict):
+def clean_text_thoroughly(novel_text,regex_patterns_dict):
+
+    original_length = len(novel_text)
     # this function will clean the text data in each text file
     #^ helper function for prepare_text_data()
     # this function will clean the text data in each of the text files in the data/firsthand/novels folder and save the cleaned text data to the data/firsthand/novels_clean folder as a text file. If this folder does not exist, it will be created.
@@ -37,7 +39,14 @@ def clean_text(novel_text,regex_patterns_dict):
     novel_text = re.sub(r'(?s)END OF THIS PROJECT GUTENBERG EBOOK.*?\s*$', '', novel_text)
     # step 1.2. remove the chapter headers from the text data in each text file
     novel_text = re.sub(r'(?s)CHAPTER.*?\n', '', novel_text)
-    print("> 1.2 ", end='')
+    print("> 1.2 ✔ ", end='')
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
     # combine all the chapter patterns into one pattern
     #master_chapter_pattern = r'(?s)^\s*CHAPTER.*?\n|^\s*\d+.*?\n|^\s*[IVXLC]+.*?\n|^\s*[ivxlc]+.*?\n|^\s*\d+\s+.*?\n|^\s*[IVXLC]+\s+.*?\n|^\s*[ivxlc]+\s+.*?\n|^\s*\d+\s+.*?\n|^\s*[IVXLC]+\s+.*?\n|^\s*[ivxlc]+\s+.*?\n|^\s*\d+\s+.*?\n' # add the rest of the chapter patterns here
     master_chapter_pattern = regex_patterns_dict['master_chapter_pattern'] # add the rest of the chapter patterns here
@@ -46,46 +55,201 @@ def clean_text(novel_text,regex_patterns_dict):
     # step 1.3. remove numbers from the text data in each text file
     number_pattern = regex_patterns_dict['number_pattern']
     # remove numbers from the text data in each text file
-    print("> 1.3 ", end='')
     novel_text = re.sub(number_pattern, '', novel_text)
+    print("> 1.3 ✔ ", end='')
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
+
     # step 1.4. remove punctuation from the text data in each text file
     punctuation_pattern = regex_patterns_dict['punctuation_pattern']
     # remove punctuation from the text data in each text file
     novel_text = re.sub(punctuation_pattern, '', novel_text)
-    print("> 1.4 ", end='')
+    print(f"> 1.4 ✔ {original_length-len(novel_text)} characters trimmed")
     # step 1.5. remove whitespace from the text data in each text file
     # whitespace_pattern = regex_patterns_dict['whitespace_pattern']
     # remove whitespace from the text data in each text file
     # novel_text = re.sub(whitespace_pattern, '', novel_text)
-    print("> XXX ", end='')
+    # print("> XXX ", end='')
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
     # step 1.6. remove the Project Gutenberg header from the text data in each text file
     project_gutenberg_header_pattern = regex_patterns_dict['project_gutenberg_header_pattern']
     # remove the Project Gutenberg header from the text data in each text file
     novel_text = re.sub(project_gutenberg_header_pattern, '', novel_text)
-    print("> 1.6 ", end='')
+    print(f"> 1.6 ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
     # step 1.7. remove the Project Gutenberg footer from the text data in each text file
     project_gutenberg_footer_pattern = regex_patterns_dict['project_gutenberg_footer_pattern']
     # remove the Project Gutenberg footer from the text data in each text file
     novel_text = re.sub(project_gutenberg_footer_pattern, '', novel_text)
-    print("> 1.7 ", end='')
+    print(f"> 1.7 ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
     # step 1.8. remove the Project Gutenberg license from the text data in each text file
     project_gutenberg_license_pattern = regex_patterns_dict['project_gutenberg_license_pattern']
     # remove the Project Gutenberg license from the text data in each text file
     novel_text = re.sub(project_gutenberg_license_pattern, '', novel_text)
-    print("> 1.8 ", end='')
+    print(f"> 1.8 ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
     # step 1.9. stopwords_pattern removal
-    stopwords_pattern = regex_patterns_dict['stopwords_pattern']
+    #!stopwords_pattern = regex_patterns_dict['stopwords_pattern']
     # remove stopwords from the text data in each text file
-    novel_text = re.sub(stopwords_pattern, '', novel_text)
-    print("> 1.9 ", end='')
+    #!novel_text = re.sub(stopwords_pattern, '', novel_text)
+    print(f"> XXX ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # preview the cleaned text data
+    # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
     # step 1.10. remove the nonenglish_pattern from the text data in each text file
-    nonenglish_pattern = regex_patterns_dict['nonenglish_pattern']
+    #nonenglish_pattern = regex_patterns_dict['nonenglish_pattern']
     # remove the nonenglish_pattern from the text data in each text file
-    novel_text = re.sub(nonenglish_pattern, '', novel_text)
-    print("> 1.10 --> DONE")
+    #novel_text = re.sub(nonenglish_pattern, '', novel_text)
+    # remove double \n\n from the text data in each text file
+    #!print(f'Removing double newlines from the text data in each text file')
+    # novel_text = re.sub(r'(?s)\n\n', '\n', novel_text)
+    # print("> 1.10 ✔ ", end='')
+
+
+    # preview the cleaned text data
+    # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
+    # step 1.11. remove any double spaces from the text data in each text file
+    novel_text = re.sub(r'(?s)  ', ' ', novel_text)
+    print(f"> 1.10 {original_length-len(novel_text)} characters trimmed")
+    if '  ' not in novel_text:
+        print("> ✅ ", end='')
+    else:
+        while '  ' in novel_text:
+            novel_text = re.sub(r'(?s)  ', ' ', novel_text)
+        print(f"> ✅ {original_length-len(novel_text)} characters trimmed")
+    # step 1.12. remove any double newlines from the text data in each text file
+    novel_text = re.sub(r'(?s)\n\n', '\n', novel_text)
+    if '\n\n' not in novel_text:
+        print(f"> 1.11  {original_length-len(novel_text)} characters trimmed")
+    else:
+        print('\n|', end='')
+        while '\n\n' in novel_text:
+            print('😒', end='')
+            novel_text = re.sub(r'(?s)\n\n', '\n', novel_text)
+
+        print(f"\n> 1.12 {original_length-len(novel_text)} characters trimmed")
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
+
+    print("> XXX --> DONE")
     return novel_text
 
+def clean_text_keep_punct(novel_text,regex_patterns_dict):
 
+    original_length = len(novel_text)
+    # this function will clean the text data in each text file
+    #^ helper function for prepare_text_data()
+    # this function will clean the text data in each of the text files in the data/firsthand/novels folder and save the cleaned text data to the data/firsthand/novels_clean folder as a text file. If this folder does not exist, it will be created.
+    # novel_text is the string contents of a file that was opened in the prepare_text_data() function
+    # step 1.1. remove the header and footer from the text data in each text file
+    novel_text = re.sub(r'(?s)^\s*.*?START OF THIS PROJECT GUTENBERG EBOOK.*?\n', '', novel_text)
+    novel_text = re.sub(r'(?s)END OF THIS PROJECT GUTENBERG EBOOK.*?\s*$', '', novel_text)
+    # step 1.2. remove the chapter headers from the text data in each text file
+    novel_text = re.sub(r'(?s)CHAPTER.*?\n', '', novel_text)
+    print("> 1.2 ✔ ", end='')
+
+    # preview the cleaned text data
+        # print(f'Preview of the cleaned text data:')
+    # print('---------------------------------------------------')
+    # print(novel_text[:1000])
+    # print('...')
+
+    # combine all the chapter patterns into one pattern
+    #master_chapter_pattern = r'(?s)^\s*CHAPTER.*?\n|^\s*\d+.*?\n|^\s*[IVXLC]+.*?\n|^\s*[ivxlc]+.*?\n|^\s*\d+\s+.*?\n|^\s*[IVXLC]+\s+.*?\n|^\s*[ivxlc]+\s+.*?\n|^\s*\d+\s+.*?\n|^\s*[IVXLC]+\s+.*?\n|^\s*[ivxlc]+\s+.*?\n|^\s*\d+\s+.*?\n' # add the rest of the chapter patterns here
+    master_chapter_pattern = regex_patterns_dict['master_chapter_pattern'] # add the rest of the chapter patterns here
+    # remove the chapter headers from the text data in each text file
+    novel_text = re.sub(master_chapter_pattern, '', novel_text)
+    # step 1.3. remove numbers from the text data in each text file
+    number_pattern = regex_patterns_dict['number_pattern']
+    # remove numbers from the text data in each text file
+    novel_text = re.sub(number_pattern, '', novel_text)
+    print("> 1.3 ✔ ", end='')
+
+    # step 1.6. remove the Project Gutenberg header from the text data in each text file
+    project_gutenberg_header_pattern = regex_patterns_dict['project_gutenberg_header_pattern']
+    # remove the Project Gutenberg header from the text data in each text file
+    novel_text = re.sub(project_gutenberg_header_pattern, '', novel_text)
+    print(f"> 1.6 ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # step 1.7. remove the Project Gutenberg footer from the text data in each text file
+    project_gutenberg_footer_pattern = regex_patterns_dict['project_gutenberg_footer_pattern']
+    # remove the Project Gutenberg footer from the text data in each text file
+    novel_text = re.sub(project_gutenberg_footer_pattern, '', novel_text)
+    print(f"> 1.7 ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # step 1.8. remove the Project Gutenberg license from the text data in each text file
+    project_gutenberg_license_pattern = regex_patterns_dict['project_gutenberg_license_pattern']
+    # remove the Project Gutenberg license from the text data in each text file
+    novel_text = re.sub(project_gutenberg_license_pattern, '', novel_text)
+    print(f"> 1.8 ✔ {original_length-len(novel_text)} characters trimmed")
+
+    # step 1.11. remove any double spaces from the text data in each text file
+    novel_text = re.sub(r'(?s)  ', ' ', novel_text)
+    print(f"> 1.10 {original_length-len(novel_text)} characters trimmed")
+    if '  ' not in novel_text:
+        print("> ✅ ", end='')
+    else:
+        while '  ' in novel_text:
+            novel_text = re.sub(r'(?s)  ', ' ', novel_text)
+        print(f"> ✅ {original_length-len(novel_text)} characters trimmed")
+    # step 1.12. remove any double newlines from the text data in each text file
+    novel_text = re.sub(r'(?s)\n\n', '\n', novel_text)
+    if '\n\n' not in novel_text:
+        print(f"> 1.11  {original_length-len(novel_text)} characters trimmed")
+    else:
+        print('\n|', end='')
+        while '\n\n' in novel_text:
+            print('😒', end='')
+            novel_text = re.sub(r'(?s)\n\n', '\n', novel_text)
+
+        print(f"\n> 1.12 {original_length-len(novel_text)} characters trimmed")
+
+
+    print("> XXX --> DONE")
+    return novel_text
 
 def prepare_text_data():
     # this function will call its helper functions to prepare the data for modeling in each of the text files in the data/firsthand/novels folder and save the cleaned text data to the data/firsthand/novels_clean folder as a text file. If this folder does not exist, it will be created.
@@ -102,7 +266,7 @@ def prepare_text_data():
 
         # step 1. clean the text data in each text file
         print(f'Step 1. Cleaning text data in {each_novel}...')
-        novel_text = clean_text(novel_text, regex_patterns_dict) # call the clean_text() function
+        novel_text = clean_text_keep_punct(novel_text, regex_patterns_dict) # call the clean_text() function (keep punctuation) to clean the text data in each text file.
         # step 2. save the cleaned text data to the data/firsthand/novels_clean folder as a text file
         print(f'Step 2. Saving cleaned text ...')
         # create the data/firsthand/novels_clean folder if it does not exist
@@ -113,9 +277,6 @@ def prepare_text_data():
             file_writing.write(novel_text)
         print(f'Successfully saved the cleaned text data to the data/firsthand/novels_clean folder as a text file.')
     print('Successfully prepared the text data for modeling in each of the text files in the data/firsthand/novels folder and saved the cleaned text data to the data/firsthand/novels_clean folder as a text file.')
-
-
-    return
 
 
 def main():
@@ -134,9 +295,7 @@ def main():
 
 
     # step 0. prepare the text data in each of the text files in the data/firsthand/novels folder and save the cleaned text data to the data/firsthand/novels_clean folder as a text file. If this folder does not exist, it will be created.
-    prepare_text_data() # > calls the prepare_text_data() function > calls the clean_text() function > calls the tokenize_text() function > calls the lemmatize_text() function > calls the create_ngrams() function > calls the create_bigrams() function > calls the create_trigrams() function
-    # step 1. build the data visualization in holoviz using the data in the book_data folder
-    # build_data_viz() # > calls the build_data_viz() function
+    prepare_text_data() # > calls the prepare_text_data() function > calls the clean_text_keep_punct() function which saves each novel as a text file in the data/firsthand/novels_clean folder and maintains the punctuation in the text data.
 
     return
 
