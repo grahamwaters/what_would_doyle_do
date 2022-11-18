@@ -161,7 +161,12 @@ def book_reformatter(books_directory):
                 continue # skip the .DS_Store file
             # currently we have books with spaces in the title and disorganized capitalization.
             # we want to remove the spaces and make the capitalization consistent while leaving the .txt extension.
-
+            # also, if the book already has a pickle folder for it, we don't need to reprocess it.
+            # if the book has already been processed, we can skip it.
+            if os.path.exists(f'./data/pickles/{book.replace(".txt","")}'):
+                bar.text(f'Already processed {book}...')
+                bar()
+                continue
             original_book_name = book # save the original name of the book
             # if the original name already has the correct format, we don't need to change it
             if re.search(r'\d{4}_[a-z]+_[a-z]+\.txt',book):
@@ -319,7 +324,11 @@ def main():
     except Exception as e:
         print(f'Error: {e}')
 
-    print(f'-------------------------')
+    print('-----------------------------------')
+    print('  All books are pickled and ready  ')
+    print('-----------------------------------')
+
+    time.sleep(0.25)
 
 
 main()
