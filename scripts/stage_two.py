@@ -23,15 +23,35 @@ def book_title_reformatter(book_title):
     # last check to make sure the title is formatted correctly
     if re.search(r'\d{1,2}.*doyle',word.lower()):
         book_title = book_title.replace(word,'')
+    # add doyle back in between the numbers and the title
+    book_title = str(re.sub(r'(\d{1,4})(.*)',r'\1_doyle_\2',book_title))\
+        .replace('__','_')\
+        .replace('doyle_doyle','doyle')
+    # remove __ by replacing it with _
+    # book_title = book_title.replace('__','_')
+    #^ replace instances of 'doyle_doyle' with 'doyle'
+    # book_title = book_title.replace('doyle_doyle','doyle')
     return book_title
 
 
+def bookshelf_mass_rename(books_folder):
+    # for every book in the books folder, rename the books with book_title_reformatter
+    for root, dirs, files in os.walk(books_folder):
+        for file in files:
+            # rename the file
+            os.rename(f'{root}/{file}',f'{root}/{book_title_reformatter(file)}')
+            #* remove any ds_store files that may be in the directory (using regex)
+            #*remove_ds_store(root,file)
 
 
 
 
 # using SpaCy to get keywords
 def get_keywords(book_title,book_text,bar):
+
+    #^ use reformatter
+    book_title = book_title_reformatter(book_title) # remove any duplicated words from the title
+
 
     # check if the pickled file exists already
     if os.path.exists(f'./data/pickles/{book_title}.pkl'):
@@ -68,8 +88,6 @@ def get_keywords(book_title,book_text,bar):
         # save these to files for later use (pickle)
         # remove .txt from the title
         title = book_title.replace('.txt','')
-        #^ use reformatter
-        title = book_title_reformatter(title) # remove any duplicated words from the title
 
         # save the keywords to a pickle file for later use (this will be used in the next stage)
         # if the folder doesn't exist, create it first
@@ -226,7 +244,27 @@ def book_reformatter(books_directory):
             common_words = [x for x in common_words if x != ' ' and x != '']
             print(f'Identified {len(keywords)} keywords, {len(entities)} entities, and {len(common_words)} common words in {book}')
 
-            os.rename(os.path.join(books_directory, book), os.path.join(books_directory, year + '_doyle_' + book)) # rename the file
+
+
+            # if all of book, year, and book_directory are in os.path.join(book_directory,book), then we can use the book name as the title
+            if all([\
+                book in os.path.join(books_directory,book), \
+                year in os.path.join(books_directory,book), \
+                books_directory in os.path.join(books_directory,book)]):
+                pass # do nothing
+            else:
+                os.rename(os.path.join(books_directory, book), \
+                    os.path.join(books_directory, year + '_doyle_' + book)) # rename the file to the correct format
+                # the lines above do the following:
+                # os.rename(os.path.join(books_directory, book) - this is the original file name and path
+                # os.path.join(books_directory, year + '_doyle_' + book) - this is the new file name and path. It is the year the book was published, the author's last name, and the book title.
+                # but what if the original file already has the correct format? We don't want to rename it.
+                # we can check if the original file name is the same as the new file name. If they are the same, then we don't need to rename the file.
+
+
+
+
+
             # create a dataframe with the following columns: year, author, title, text, and keywords
             # we will use the year, author, and title to sort our books by year and author, and we will use the text to create our knowledge base, and we will use the keywords to search for keywords in our knowledge base.
 
@@ -268,6 +306,13 @@ def main():
     print(f'-------------------------')
     time.sleep(0.25)
     print(f"Let's find out!")
+
+    print('-----------------------------------')
+    print(' Verfiying book naming conventions ')
+    bookshelf_mass_rename('./data/book_data')
+    bookshelf_mass_rename('./data/firsthand')
+    print('-----------------------------------')
+    time.sleep(0.25)
 
     try:
         book_reformatter('data/firsthand/novels')
