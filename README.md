@@ -1,10 +1,8 @@
 
 
-<!-- adding shields for contributor count/chat on discord and coverage -->
-<h1 align="center" font-size = 40px;> What Would Doyle Do?
-</h1>
-<h2 align="center" font-size = 20px;> (W.W.D.D.)
-</h2>
+
+![banner](images/whatwoulddoyledo.gif)
+
 
 <div align="center">
 
@@ -19,6 +17,11 @@
 
 </div>
 
+<!-- adding shields for contributor count/chat on discord and coverage -->
+<h3 align="center" font-size = 40px;> What Would Doyle Do?
+</h3>
+<h5 align="center" font-size = 20px;> (W.W.D.D.)
+</h5>
 
 *By Graham Waters ~ A Machine Learning Experiment.*
 
