@@ -20,16 +20,19 @@
 </h5>
 
 ---
+# What is This Project?
 
-# Installation
+For a [detailed report see this page](detailed_project_readme.md), but in short, it answers the question, "Can machine learning be applied to existing text data that an author writes or about a person that can help historical fiction authors write more accurately about their subject?"
 
+# How to Use This Project
 
+## Installation
 
-
-## Requirements
+### Prerequisites
 
 - Python 3.6 or higher
-- Pipenv
+- Pip
+- Git
 
 ## Instructions
 
